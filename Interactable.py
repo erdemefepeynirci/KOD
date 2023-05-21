@@ -14,3 +14,4 @@ class Interactable:
 
     def create(self):
         pass
+

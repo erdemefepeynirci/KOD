@@ -18,7 +18,7 @@ class Game:
         self._clock = pygame.time.Clock()
         self._screen = pygame.display.set_mode((self._window_width,self._window_height))
         #self._rect: Rect
-        self._life_image = pygame.transform.scale(pygame.image.load("spring2023-projectpart2-group-10\code\heart.png"),(30,30))
+        self._life_image = pygame.transform.scale(pygame.image.load("heart.png"),(30,30))
         self._key_number = 0
 
 
@@ -38,12 +38,16 @@ class Game:
         self.canavar_height = 30
         self.canavar_width = 30
 
+        #Key ayarları
+        self.key_height = 20
+        self.key_width = 55
+
         #Arrayler
         self.walls = []
         self.floors = []
         self.stairs = []
         self.canavarlar = []
-
+        self.keys = []
         
 
 
@@ -94,7 +98,7 @@ class Game:
 
             #pygame.draw.rect(self._screen,(255,255,255),new_rect)
 
-            self.floor_image = pygame.transform.scale(pygame.image.load("spring2023-projectpart2-group-10\code\platform.png"),(self._window_width,self.floor_height))
+            self.floor_image = pygame.transform.scale(pygame.image.load("platform.png"),(self._window_width,self.floor_height))
             self._screen.blit(self.floor_image,new_rect)
 
         visible_stairs = [stair for stair in self.stairs if stair.top > self.player.varying_y - self._window_height/2 and stair.top < self.player.varying_y + self._window_height/2 ] 
@@ -104,7 +108,7 @@ class Game:
             new_rect = pygame.Rect(visible_stair.left,new_rect_top,visible_stair.width,visible_stair.height)
             #pygame.draw.rect(self._screen,(255,0,255),new_rect)
 
-            self.stair_image = pygame.transform.scale(pygame.image.load("spring2023-projectpart2-group-10\code\stair.png"),(self.stair_width,self.floor_seperation+15))
+            self.stair_image = pygame.transform.scale(pygame.image.load("stair.png"),(self.stair_width,self.floor_seperation+15))
             self._screen.blit(self.stair_image,new_rect)
 
     
@@ -115,8 +119,18 @@ class Game:
             new_rect = pygame.Rect(visible_canavar.left,new_rect_top,visible_canavar.width,visible_canavar.height)
             #pygame.draw.rect(self._screen,(255,0,255),new_rect)
 
-            self.canavar_image = pygame.transform.scale(pygame.image.load("spring2023-projectpart2-group-10\code\player.png"),(self.canavar_width,self.canavar_height))
+            self.canavar_image = pygame.transform.scale(pygame.image.load("heart.png"),(self.canavar_width,self.canavar_height))
             self._screen.blit(self.canavar_image,new_rect)
+
+        visible_keys = [key for key in self.keys if key.top > self.player.varying_y - self._window_height/2 and key.top < self.player.varying_y + self._window_height/2 ] 
+
+        for visible_key in visible_keys:
+            new_rect_top = self.player.loc_y + (visible_key.top - self.player.varying_y)
+            new_rect = pygame.Rect(visible_canavar.left,new_rect_top,visible_key.width,visible_key.height)
+            #pygame.draw.rect(self._screen,(255,0,255),new_rect)
+
+            self.key_image = pygame.transform.scale(pygame.image.load("key.png"),(self.key_width,self.key_height))
+            self._screen.blit(self.key_image,new_rect)
 
 
         self.player.draw(screen=self._screen)
@@ -167,7 +181,6 @@ class Game:
             
             spawned_monster = False
             while not spawned_monster:
-                print("SPAWNNNNNNNNNNNNNNNNNNNNNNN")
                 spawn_x = random.randrange(0,self._window_width)
                 spawn_y = floor.top - self.canavar_height
 
@@ -182,6 +195,24 @@ class Game:
                 else:
                     self.canavarlar.append(canavar_rect)
                     spawned_monster = True
+            
+            spawned_key = False
+            while not spawned_key:
+                
+                spawn_x = random.randrange(0,self._window_width)
+                spawn_y = floor.top - self.key_height
+
+                key_rect = pygame.Rect(spawn_x,spawn_y,self.key_width,self.key_height)
+
+                bu_kattaki_duvarlar = [duvar for duvar in self.walls if duvar.top == floor.top+self.floor_height+self.floor_seperation]
+
+                cakisiyor_mu = key_rect.collidelist(bu_kattaki_duvarlar)
+
+                if (cakisiyor_mu != -1):
+                    break
+                else:
+                    self.keys.append(key_rect)
+                    spawned_key = True
 
 
 
