@@ -1,5 +1,6 @@
 import pygame
 import Bullet
+import Interactable
 from Player import Player
 from pygame.locals import *
 from MonsterD import MonsterD
@@ -61,6 +62,7 @@ class Game:
         self.stairs = []
         self.canavarlar = []
         self.keys = []
+        self.interactable = []
         self.bullets = []
         
 
@@ -105,7 +107,7 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == QUIT:
-                    quit()
+                    self.quit()
 
             pygame.display.update()
 
@@ -114,15 +116,15 @@ class Game:
         self.player.create(60,675)
 
         self.monsterD1 = MonsterD(840,675,10,3,2)
-        self.monsterD1.create(840,675,"heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD1.create(840,675,"monsterd.png",self.canavar_height,self.canavar_width)
         self.monsterD2 = MonsterD(570,555,10,3,2)
-        self.monsterD2.create(570,555,"heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD2.create(570,555,"monsterd.png",self.canavar_height,self.canavar_width)
         self.monsterD3 = MonsterD(480,435,10,3,2)
-        self.monsterD3.create(480,435,"heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD3.create(480,435,"monsterd.png",self.canavar_height,self.canavar_width)
         self.monsterD4 = MonsterD(360,315,10,3,2)
-        self.monsterD4.create(360,315,"heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD4.create(360,315,"monsterd.png",self.canavar_height,self.canavar_width)
         self.monsterD5 = MonsterD(780,195,10,3,2)
-        self.monsterD5.create(780,195,"heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD5.create(780,195,"monsterd.png",self.canavar_height,self.canavar_width)
 
         self.monsterH1 = MonsterH(810,555,10,4,1)
         self.monsterH1.create(810,555,"heart.png",self.canavar_height,self.canavar_width)
@@ -164,6 +166,32 @@ class Game:
         self.key10 = Key(960,690)
         self.key10.create(960,690,"key.png",self.key_width,self.key_height)
 
+
+        self.canavarlar.append(self.monsterD1)
+        self.canavarlar.append(self.monsterD2)
+        self.canavarlar.append(self.monsterD3)
+        self.canavarlar.append(self.monsterD4)
+        self.canavarlar.append(self.monsterD5)
+        self.canavarlar.append(self.monsterS1)
+        self.canavarlar.append(self.monsterS2)
+        self.canavarlar.append(self.monsterS3)
+        self.canavarlar.append(self.monsterS4)
+        self.canavarlar.append(self.monsterH1)
+        self.canavarlar.append(self.monsterH2)
+        self.canavarlar.append(self.monsterH3)
+
+
+        self.keys.append(self.key1)
+        self.keys.append(self.key2)
+        self.keys.append(self.key3)
+        self.keys.append(self.key4)
+        self.keys.append(self.key5)
+        self.keys.append(self.key6)
+        self.keys.append(self.key7)
+        self.keys.append(self.key8)
+        self.keys.append(self.key9)
+        self.keys.append(self.key10)
+
         self.create_map()
 
 
@@ -176,7 +204,6 @@ class Game:
             self.wall_image = pygame.transform.scale(pygame.image.load("Wall.png"),(wall.width,wall.height))
             self._screen.blit(self.wall_image,wall_rect)
 
-        
          
 
         for floor in self.floors:
@@ -193,29 +220,11 @@ class Game:
             self.stair_image = pygame.transform.scale(pygame.image.load("stair.png"),(self.stair_width,self.stair_height))
             self._screen.blit(self.stair_image,stair_rect)
 
-    
-        """visible_canavarlar = [canavar for canavar in self.canavarlar if canavar.top > self.player.varying_y - self._window_height/2 and canavar.top < self.player.varying_y + self._window_height/2 ] 
-
-        for visible_canavar in visible_canavarlar:
-            new_rect_top = self.player.loc_y + (visible_canavar.top - self.player.varying_y)
-            new_rect = pygame.Rect(visible_canavar.left,new_rect_top,visible_canavar.width,visible_canavar.height)
-            #pygame.draw.rect(self._screen,(255,0,255),new_rect)
-
-            self.canavar_image = pygame.transform.scale(pygame.image.load("heart.png"),(self.canavar_width,self.canavar_height))
-            self._screen.blit(self.canavar_image,new_rect)
-
-        visible_keys = [key for key in self.keys if key.top > self.player.varying_y - self._window_height/2 and key.top < self.player.varying_y + self._window_height/2 ] 
-
-        for visible_key in visible_keys:
-            new_rect_top = self.player.loc_y + (visible_key.top - self.player.varying_y)
-            new_rect = pygame.Rect(visible_key.left,new_rect_top,visible_key.width,visible_key.height)
-            #pygame.draw.rect(self._screen,(255,0,255),new_rect)
-
-            self.key_image = pygame.transform.scale(pygame.image.load("key.png"),(self.key_width,self.key_height))
-            self._screen.blit(self.key_image,new_rect)"""
 
 
         self.player.draw(screen=self._screen)
+
+
         self.monsterD1.draw(screen=self._screen)
         self.monsterD2.draw(screen=self._screen)
         self.monsterD3.draw(screen=self._screen)
@@ -243,10 +252,17 @@ class Game:
         for bullet in self.bullets:
             bullet.draw(screen=self._screen)
             bullet.bullet_move()
+            if self.is_there_a_wall(bullet.loc_x,bullet.loc_y):
+                bullet.remove_bullet()
+                self.bullets.remove(bullet)
+
+        loc = self.player.here_is_loc()
+        for key in self.keys:
+            if key.is_interacted(loc[0],loc[1]):
+                self._screen.fill((255,0,0))
+
 
         self._clock.tick(60)
-    
-            
 
     
     def quit(self):
@@ -322,7 +338,7 @@ class Game:
 
     def is_there_stairs(self,loc_x,loc_y):
         for stair in self.stairs:
-            if pygame.Rect.collidepoint(stair,loc_x,loc_y):
+            if pygame.Rect.collidepoint(stair,loc_x,loc_y+25):
                 return True
         return False
 
