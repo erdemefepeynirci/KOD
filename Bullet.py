@@ -1,11 +1,11 @@
 class Bullet:
 
-    def __init__(self):
-        self.loc_x: int
-        self.loc_y: int
-        self.color: tuple
-        self.damage: int
-        self.speed: int
+    def __init__(self, loc_x, loc_y):
+        self.loc_x = loc_x
+        self.loc_y = loc_y
+        self.color = (255,255,255)
+        self.damage= 1
+        self.speed= 3
 
     def is_hit_wall(self):
         pass

@@ -12,16 +12,16 @@ class Player:
         self.direction: str
 
     def go_right(self):
-        pass
+        self.loc_x +=5*self.speed
 
     def go_left(self):
-        pass
+        self.loc_x -=5*self.speed
 
     def go_up(self):
-        pass
+        self.loc_y -=5*self.speed
 
     def go_down(self):
-        pass
+        self.loc_y +=5*self.speed
     
     def shoot(self):
         pass
@@ -43,9 +43,10 @@ class Player:
 
 
     def create(self,locx,locy):
-        self.image = pygame.transform.scale(pygame.image.load("KOD\player.png"),(30,30))
+        self.image = pygame.transform.scale(pygame.image.load("player.png"),(30,30))
         self.loc_x = locx
         self.loc_y = locy
+        self.speed = 1
         
 
 
