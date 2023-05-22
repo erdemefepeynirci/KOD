@@ -4,6 +4,8 @@ from pygame.locals import *
 from MonsterD import MonsterD
 from MonsterH import MonsterH
 from MonsterS import MonsterS
+from Chest import Chest
+from Key import Key
 
 class Game:
     def __init__(self):
@@ -34,7 +36,9 @@ class Game:
         self.floor_seperation = 105
 
 
-
+        #Chest Ayarları
+        self.chest_height = 60
+        self.chest_width = 90
 
 
         #Merdiven Ayarları
@@ -47,8 +51,8 @@ class Game:
         self.canavar_width = 30
 
         #Key ayarları
-        self.key_height = 60
-        self.key_width = 90
+        self.key_height = 15
+        self.key_width = 30
 
         #Arrayler
         self.walls = []
@@ -103,7 +107,9 @@ class Game:
     def start(self):
         self.player = Player()
         self.player.create(60,675)
+
         self.monsterD1 = MonsterD(840,675,10,3,2)
+<<<<<<< HEAD
         self.monsterD1.create(840,675,"heart.png",30,30)
         self.monsterD2 = MonsterD(570,555,10,3,2)
         self.monsterD2.create(570,555,"heart.png",30,30)
@@ -127,6 +133,58 @@ class Game:
         self.monsterS3.create(570,315,"heart.png",30,30)
         self.monsterS4 = MonsterS(180,195,20,3,1)
         self.monsterS4.create(180,195,"heart.png",30,30)
+=======
+        self.monsterD1.create(840,675,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD2 = MonsterD(570,555,10,3,2)
+        self.monsterD2.create(570,555,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD3 = MonsterD(480,435,10,3,2)
+        self.monsterD3.create(480,435,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD4 = MonsterD(360,315,10,3,2)
+        self.monsterD4.create(360,315,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterD5 = MonsterD(780,195,10,3,2)
+        self.monsterD5.create(780,195,"KOD\heart.png",self.canavar_height,self.canavar_width)
+
+        self.monsterH1 = MonsterH(810,555,10,4,1)
+        self.monsterH1.create(810,555,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterH2 = MonsterH(510,435,10,4,1)
+        self.monsterH2.create(510,435,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterH3 = MonsterH(600,75,10,4,2)
+        self.monsterH3.create(600,75,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        
+        self.monsterS1 = MonsterS(660,675,20,3,1)
+        self.monsterS1.create(660,675,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterS2 = MonsterS(540,435,20,3,1)
+        self.monsterS2.create(540,435,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterS3 = MonsterS(570,315,20,3,1)
+        self.monsterS3.create(570,315,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        self.monsterS4 = MonsterS(180,195,20,3,1)
+        self.monsterS4.create(180,195,"KOD\heart.png",self.canavar_height,self.canavar_width)
+        
+        self.chest = Chest(870,45)
+        self.chest.create(870,45,"KOD\key.png",self.chest_width,self.chest_height)
+        
+        self.key1 = Key(810,90)
+        self.key1.create(810,90,"KOD\key.png",self.key_width,self.key_height)
+        self.key2 = Key(720,210)
+        self.key2.create(720,210,"KOD\key.png",self.key_width,self.key_height)
+        self.key3 = Key(420,330)
+        self.key3.create(420,330,"KOD\key.png",self.key_width,self.key_height)
+        self.key4 = Key(990,330)
+        self.key4.create(990,330,"KOD\key.png",self.key_width,self.key_height)
+        self.key5 = Key(60,450)
+        self.key5.create(60,450,"KOD\key.png",self.key_width,self.key_height)
+        self.key6 = Key(600,450)
+        self.key6.create(600,450,"KOD\key.png",self.key_width,self.key_height)
+        self.key7 = Key(930,450)
+        self.key7.create(930,450,"KOD\key.png",self.key_width,self.key_height)
+        self.key8 = Key(510,570)
+        self.key8.create(510,570,"KOD\key.png",self.key_width,self.key_height)
+        self.key9 = Key(690,570)
+        self.key9.create(690,570,"KOD\key.png",self.key_width,self.key_height)
+        self.key10 = Key(960,690)
+        self.key10.create(960,690,"KOD\key.png",self.key_width,self.key_height)
+
+>>>>>>> 1aab83292af361c5f060e1bbf6faf8d77e5bd999
         self.create_map()
 
 
@@ -191,7 +249,17 @@ class Game:
         self.monsterH3.draw(screen=self._screen)
         self.monsterH2.draw(screen=self._screen)
         self.monsterH1.draw(screen=self._screen)
-
+        self.chest.draw(screen=self._screen)
+        self.key1.draw(screen=self._screen)
+        self.key2.draw(screen=self._screen)
+        self.key3.draw(screen=self._screen)
+        self.key4.draw(screen=self._screen)
+        self.key5.draw(screen=self._screen)
+        self.key6.draw(screen=self._screen)
+        self.key7.draw(screen=self._screen)
+        self.key8.draw(screen=self._screen)
+        self.key9.draw(screen=self._screen)
+        self.key10.draw(screen=self._screen)
 
         self._clock.tick(60)
         
