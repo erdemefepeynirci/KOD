@@ -1,10 +1,11 @@
 import pygame
+
 class Interactable:
-    def __init__(self,loc_x, loc_y):
-        self.rect: pygame.Rect
-        self.image: pygame.Surface    
-        self.loc_x = loc_x
-        self.loc_y = loc_y
+    def __init__(self,locx,locy):
+        self.rect: pygame.Rect  
+        self.loc_x = locx
+        self.loc_y = locy
+
 
     def is_interacted(self,locx,locy):
         if locx>self.loc_x-15 and locx<=self.loc_x+15 and locy>self.loc_y-15 and locy<=self.loc_y+15:

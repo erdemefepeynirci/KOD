@@ -1,6 +1,6 @@
 import pygame
 import Bullet
-import Interactable
+from Interactable import Interactable
 from Player import Player
 from pygame.locals import *
 from MonsterD import MonsterD
@@ -8,6 +8,9 @@ from MonsterH import MonsterH
 from MonsterS import MonsterS
 from Chest import Chest
 from Key import Key
+from BuffD import BuffD
+from BuffS import BuffS
+from BuffH import BuffH
 
 class Game:
     def __init__(self):
@@ -49,8 +52,8 @@ class Game:
         self.max_stair_count = 3
 
         #Canavar Ayarları
-        self.canavar_height = 30
-        self.canavar_width = 30
+        self.canavar_height = 40
+        self.canavar_width = 50
 
         #Key ayarları
         self.key_height = 15
@@ -64,6 +67,7 @@ class Game:
         self.keys = []
         self.interactable = []
         self.bullets = []
+        self.buffs = []
         
 
 
@@ -126,20 +130,20 @@ class Game:
         self.monsterD5 = MonsterD(780,195,10,3,2)
         self.monsterD5.create(780,195,"monsterd.png",self.canavar_height,self.canavar_width)
 
-        self.monsterH1 = MonsterH(810,555,10,4,1)
+        self.monsterH1 = MonsterH(810,555,10,4,2)
         self.monsterH1.create(810,555,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterH2 = MonsterH(510,435,10,4,1)
+        self.monsterH2 = MonsterH(510,435,10,4,2)
         self.monsterH2.create(510,435,"heart.png",self.canavar_height,self.canavar_width)
         self.monsterH3 = MonsterH(600,75,10,4,2)
         self.monsterH3.create(600,75,"heart.png",self.canavar_height,self.canavar_width)
         
-        self.monsterS1 = MonsterS(660,675,20,3,1)
+        self.monsterS1 = MonsterS(660,675,20,3,2)
         self.monsterS1.create(660,675,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterS2 = MonsterS(540,435,20,3,1)
+        self.monsterS2 = MonsterS(540,435,20,3,2)
         self.monsterS2.create(540,435,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterS3 = MonsterS(570,315,20,3,1)
+        self.monsterS3 = MonsterS(570,315,20,3,2)
         self.monsterS3.create(570,315,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterS4 = MonsterS(180,195,20,3,1)
+        self.monsterS4 = MonsterS(180,195,20,3,2)
         self.monsterS4.create(180,195,"heart.png",self.canavar_height,self.canavar_width)
         
         self.chest = Chest(870,45)
@@ -163,8 +167,8 @@ class Game:
         self.key8.create(510,570,"key.png",self.key_width,self.key_height)
         self.key9 = Key(690,570)
         self.key9.create(690,570,"key.png",self.key_width,self.key_height)
-        self.key10 = Key(960,690)
-        self.key10.create(960,690,"key.png",self.key_width,self.key_height)
+        self.key10 = Key(960,675)
+        self.key10.create(960,675,"key.png",self.key_width,self.key_height)
 
 
         self.canavarlar.append(self.monsterD1)
@@ -224,42 +228,41 @@ class Game:
 
         self.player.draw(screen=self._screen)
 
-
-        self.monsterD1.draw(screen=self._screen)
-        self.monsterD2.draw(screen=self._screen)
-        self.monsterD3.draw(screen=self._screen)
-        self.monsterD4.draw(screen=self._screen)
-        self.monsterD5.draw(screen=self._screen)
-        self.monsterS1.draw(screen=self._screen)
-        self.monsterS2.draw(screen=self._screen)
-        self.monsterS3.draw(screen=self._screen)
-        self.monsterS4.draw(screen=self._screen)
-        self.monsterH3.draw(screen=self._screen)
-        self.monsterH2.draw(screen=self._screen)
-        self.monsterH1.draw(screen=self._screen)
         self.chest.draw(screen=self._screen)
-        self.key1.draw(screen=self._screen)
-        self.key2.draw(screen=self._screen)
-        self.key3.draw(screen=self._screen)
-        self.key4.draw(screen=self._screen)
-        self.key5.draw(screen=self._screen)
-        self.key6.draw(screen=self._screen)
-        self.key7.draw(screen=self._screen)
-        self.key8.draw(screen=self._screen)
-        self.key9.draw(screen=self._screen)
-        self.key10.draw(screen=self._screen)
+
+        for key in self.keys:
+            key.draw(screen=self._screen)
+
+        for mon in self.canavarlar:
+            mon.draw(screen=self._screen)
+
+        for buff in self.buffs:
+            buff.draw(self._screen)
 
         for bullet in self.bullets:
             bullet.draw(screen=self._screen)
             bullet.bullet_move()
-            if self.is_there_a_wall(bullet.loc_x,bullet.loc_y):
-                bullet.remove_bullet()
-                self.bullets.remove(bullet)
+            b2 = self.is_there_a_wall(bullet.loc_x,bullet.loc_y)
+            for mon in self.canavarlar:
+                b1 = mon.is_get_hit(bullet.loc_x,bullet.loc_y)
+                if b1 or b2:
+                    self.bullets.remove(bullet)
+                    bullet.remove_bullet()
+                if mon.mon_health == 0:
+                    self.mon_die(mon)
 
         loc = self.player.here_is_loc()
         for key in self.keys:
             if key.is_interacted(loc[0],loc[1]):
-                self._screen.fill((255,0,0))
+                key.affect(self._key_number)
+                self.keys.remove(key)
+
+        for mon in self.canavarlar:
+            loc = mon.here_is_mon_loc()
+            b = self.is_there_a_wall(loc[0],loc[1])
+            if b:
+                mon.change_direction()
+            mon.mon_move()
 
 
         self._clock.tick(60)
@@ -341,6 +344,21 @@ class Game:
             if pygame.Rect.collidepoint(stair,loc_x,loc_y+25):
                 return True
         return False
+    
+    def mon_die(self,canavar):
+        loc = canavar.here_is_mon_loc()
+        if isinstance(canavar,MonsterD):
+            buff = BuffD(loc[0],loc[1])
+            self.buffs.append(buff)
+        elif isinstance(canavar,MonsterS):
+            buff = BuffS(loc[0],loc[1])
+            self.buffs.append(buff)
+        else:
+            buff = BuffH(loc[0],loc[1])
+            self.buffs.append(buff)
+
+        self.canavarlar.remove(canavar)
+        del canavar
 
 my_game = Game()
 my_game.run()

@@ -7,3 +7,7 @@ class Key(Interactable):
         self.image: pygame.Surface
         super().__init__(loc_x,loc_y)
 
+    def affect(self,key_number):
+        key_number += 1
+        del self
+        
