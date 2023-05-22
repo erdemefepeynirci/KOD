@@ -47,11 +47,15 @@ class Player:
         self.loc_x = locx
         self.loc_y = locy
         self.speed = 1
+        self.direction = "R"
         
 
 
     def here_is_loc(self):
         return (self.loc_x,self.loc_y)
+    
+    def here_is_direc(self):
+        return self.direction
 
     def check_life(self):
         pass
