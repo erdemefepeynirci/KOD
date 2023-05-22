@@ -20,7 +20,7 @@ class Game:
         self._clock = pygame.time.Clock()
         self._screen = pygame.display.set_mode((self._window_width,self._window_height))
         #self._rect: Rect
-        self._life_image = pygame.transform.scale(pygame.image.load("heart.png"),(30,30))
+        self._life_image = pygame.transform.scale(pygame.image.load("KOD\heart.PNG"),(30,30))
         self._key_number = 0
 
         #Duvar Ayarları
@@ -87,29 +87,29 @@ class Game:
         self.player = Player()
         self.player.create(60,675)
         self.monsterD1 = MonsterD(840,675,10,3,2)
-        self.monsterD1.create(840,675,"heart.png",30,30)
+        self.monsterD1.create(840,675,"KOD\heart.png",30,30)
         self.monsterD2 = MonsterD(570,555,10,3,2)
-        self.monsterD2.create(570,555,"heart.png",30,30)
+        self.monsterD2.create(570,555,"KOD\heart.png",30,30)
         self.monsterD3 = MonsterD(480,435,10,3,2)
-        self.monsterD3.create(480,435,"heart.png",30,30)
+        self.monsterD3.create(480,435,"KOD\heart.png",30,30)
         self.monsterD4 = MonsterD(360,315,10,3,2)
-        self.monsterD4.create(360,315,"heart.png",30,30)
+        self.monsterD4.create(360,315,"KOD\heart.png",30,30)
         self.monsterD5 = MonsterD(780,195,10,3,2)
-        self.monsterD5.create(780,195,"heart.png",30,30)
+        self.monsterD5.create(780,195,"KOD\heart.png",30,30)
         self.monsterH1 = MonsterH(810,555,10,4,1)
-        self.monsterH1.create(810,555,"heart.png",30,30)
+        self.monsterH1.create(810,555,"KOD\heart.png",30,30)
         self.monsterH2 = MonsterH(510,435,10,4,1)
-        self.monsterH2.create(510,435,"heart.png",30,30)
+        self.monsterH2.create(510,435,"KOD\heart.png",30,30)
         self.monsterH3 = MonsterH(600,75,10,4,2)
-        self.monsterH3.create(600,75,"heart.png",30,30)
+        self.monsterH3.create(600,75,"KOD\heart.png",30,30)
         self.monsterS1 = MonsterS(660,675,20,3,1)
-        self.monsterS1.create(660,675,"heart.png",30,30)
+        self.monsterS1.create(660,675,"KOD\heart.png",30,30)
         self.monsterS2 = MonsterS(540,435,20,3,1)
-        self.monsterS2.create(540,435,"heart.png",30,30)
+        self.monsterS2.create(540,435,"KOD\heart.png",30,30)
         self.monsterS3 = MonsterS(570,315,20,3,1)
-        self.monsterS3.create(570,315,"heart.png",30,30)
+        self.monsterS3.create(570,315,"KOD\heart.png",30,30)
         self.monsterS4 = MonsterS(180,195,20,3,1)
-        self.monsterS4.create(180,195,"heart.png",30,30)
+        self.monsterS4.create(180,195,"KOD\heart.png",30,30)
         self.create_map()
 
 
@@ -119,7 +119,7 @@ class Game:
             wall_rect = pygame.Rect(wall.left,wall.top,wall.width,wall.height)
             #pygame.draw.rect(self._screen,(255,0,255),new_rect)
 
-            self.wall_image = pygame.transform.scale(pygame.image.load("Wall.png"),(wall.width,wall.height))
+            self.wall_image = pygame.transform.scale(pygame.image.load("KOD\Wall.png"),(wall.width,wall.height))
             self._screen.blit(self.wall_image,wall_rect)
 
         
@@ -129,14 +129,14 @@ class Game:
             floor_rect = pygame.Rect(floor.left,floor.top,self.floor_width,self.floor_height)
             #pygame.draw.rect(self._screen,(255,255,255),new_rect)
 
-            self.floor_image = pygame.transform.scale(pygame.image.load("platform.png"),(self.floor_width,self.floor_height))
+            self.floor_image = pygame.transform.scale(pygame.image.load("KOD\platform.png"),(self.floor_width,self.floor_height))
             self._screen.blit(self.floor_image,floor_rect)
 
         for stair in self.stairs:
             stair_rect = pygame.Rect(stair.left,stair.top,stair.width,stair.height)
             #pygame.draw.rect(self._screen,(255,0,255),new_rect)
 
-            self.stair_image = pygame.transform.scale(pygame.image.load("stair.png"),(self.stair_width,self.stair_height))
+            self.stair_image = pygame.transform.scale(pygame.image.load("KOD\stair.png"),(self.stair_width,self.stair_height))
             self._screen.blit(self.stair_image,stair_rect)
 
     

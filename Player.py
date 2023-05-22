@@ -43,7 +43,7 @@ class Player:
 
 
     def create(self,locx,locy):
-        self.image = pygame.transform.scale(pygame.image.load("player.png"),(30,30))
+        self.image = pygame.transform.scale(pygame.image.load("KOD\player.png"),(30,30))
         self.loc_x = locx
         self.loc_y = locy
         

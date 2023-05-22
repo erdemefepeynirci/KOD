@@ -2,12 +2,10 @@ from Interactable import Interactable
 
 class Monster(Interactable):
     
-    def __init__(self,loc_x,loc_y,mon_health,mon_speed,mon_damage):
-        
+    def __init__(self,loc_x,loc_y,mon_speed,mon_damage,mon_health):
+        self.mon_speed = mon_speed
         self.mon_health = mon_health
         self.mon_damage = mon_damage
-        self.mon_speed = mon_speed
-        
         super().__init__(loc_x,loc_y)
 
     def mon_die(self):
