@@ -1,10 +1,9 @@
-import code.Interactable as Interactable
+from Interactable import Interactable
+import pygame
 
-class Keys(Interactable):
-    def __init__(self):
-        self.rect: Rect
-        self.image: Surface
+class Key(Interactable):
+    def __init__(self,loc_x,loc_y):
+        self.rect: pygame.Rect
+        self.image: pygame.Surface
         super().__init__(loc_x,loc_y)
 
-    def create(self):
-        pass
