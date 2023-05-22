@@ -13,9 +13,11 @@ class Player:
 
     def go_right(self):
         self.loc_x +=5*self.speed
+        self.direction = "R"
 
     def go_left(self):
         self.loc_x -=5*self.speed
+        self.direction = "L"
 
     def go_up(self):
         self.loc_y -=5*self.speed
@@ -23,8 +25,8 @@ class Player:
     def go_down(self):
         self.loc_y +=5*self.speed
     
-    def shoot(self):
-        pass
+    # def shoot(self):
+    #     pass
 
     def get_key(self):
         pass

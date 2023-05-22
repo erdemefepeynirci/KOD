@@ -22,9 +22,11 @@ class Bullet:
     def bullet_move(self):
         if self.direction == "R":
             self.loc_x += 5*self.speed
+        if self.direction == "L":
+            self.loc_x -= 5*self.speed
 
-    def create(self):
-        pass
+    # def create(self):
+    #     pass
 
     def remove_bullet(self):
-        pass
+        del self
