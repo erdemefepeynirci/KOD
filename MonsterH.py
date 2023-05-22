@@ -1,8 +1,11 @@
-import Interactable, Monster
+import pygame
+from Monster import Monster
+
+
 
 class MonsterH(Monster):
-    def __init__(self):
-        self.rect: Rect
-        self.image: Surface
-        self.mon_health:int
+    def __init__(self,loc_x,loc_y,mon_speed,mon_health,mon_damage):
+        self.rect: pygame.Rect
+        self.image: pygame.Surface
+        self.mon_health = mon_health
         super().__init__(loc_x,loc_y,mon_speed,mon_damage)

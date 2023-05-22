@@ -7,8 +7,6 @@ class Player:
         self.loc_x: float
         self.loc_y: float
 
-        self.varying_y: float
-
         self.life: int
         self.speed: int
         self.direction: str
@@ -42,19 +40,17 @@ class Player:
 
     def draw(self,screen: pygame.Surface):
         screen.blit(self.image,(self.loc_x,self.loc_y))
-        self.varying_y -= 1
-
 
 
     def create(self,locx,locy):
         self.image = pygame.transform.scale(pygame.image.load("player.png"),(30,30))
         self.loc_x = locx
         self.loc_y = locy
-        self.varying_y = locy
+        
 
 
     def here_is_loc(self):
-        return (self.loc_x,self.varying_y)
+        return (self.loc_x,self.loc_y)
 
     def check_life(self):
         pass

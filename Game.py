@@ -12,7 +12,7 @@ class Game:
         #Genel ayarlar
         self._name = "Treasure Hunter"
         self._window_height = 720
-        self._window_width = 1280
+        self._window_width = 720
 
 
         self._clock = pygame.time.Clock()
@@ -83,11 +83,16 @@ class Game:
 
     def time_tick(self):
        
-        visible_walls = [wall for wall in self.walls if wall.top > self.player.varying_y - self._window_height/2 and wall.top < self.player.varying_y + self._window_height/2 ] 
+        visible_walls = [wall for wall in self.walls if wall.bottom > self.player.varying_y - self._window_height/2 and wall.top < self.player.varying_y + self._window_height/2 ] 
         for visible_wall in visible_walls:
             new_rect_top = self.player.loc_y + (visible_wall.top - self.player.varying_y)
             new_rect = pygame.Rect(visible_wall.left,new_rect_top,visible_wall.width,visible_wall.height)
             pygame.draw.rect(self._screen,(255,0,255),new_rect)
+
+            #pygame.draw.rect(self._screen,(255,0,255),new_rect)
+
+            self.wall_image = pygame.transform.scale(pygame.image.load("Wall.png"),(self.wall_width,self.floor_seperation+15))
+            self._screen.blit(self.wall_image,new_rect)
 
         
         visible_floors = [floor for floor in self.floors if floor.top > self.player.varying_y - self._window_height/2 and floor.top < self.player.varying_y + self._window_height/2 ] 
@@ -101,7 +106,7 @@ class Game:
             self.floor_image = pygame.transform.scale(pygame.image.load("platform.png"),(self._window_width,self.floor_height))
             self._screen.blit(self.floor_image,new_rect)
 
-        visible_stairs = [stair for stair in self.stairs if stair.top > self.player.varying_y - self._window_height/2 and stair.top < self.player.varying_y + self._window_height/2 ] 
+        visible_stairs = [stair for stair in self.stairs if stair.bottom > self.player.varying_y - self._window_height/2 and stair.top < self.player.varying_y + self._window_height/2 ] 
 
         for visible_stair in visible_stairs:
             new_rect_top = self.player.loc_y + (visible_stair.top - self.player.varying_y)
@@ -126,7 +131,7 @@ class Game:
 
         for visible_key in visible_keys:
             new_rect_top = self.player.loc_y + (visible_key.top - self.player.varying_y)
-            new_rect = pygame.Rect(visible_canavar.left,new_rect_top,visible_key.width,visible_key.height)
+            new_rect = pygame.Rect(visible_key.left,new_rect_top,visible_key.width,visible_key.height)
             #pygame.draw.rect(self._screen,(255,0,255),new_rect)
 
             self.key_image = pygame.transform.scale(pygame.image.load("key.png"),(self.key_width,self.key_height))
@@ -179,8 +184,14 @@ class Game:
                     new_wall = pygame.Rect((self.stairs[-2].right+stair.left)/2-self.wall_width/2,stair.top,self.wall_width,stair.height)
                     self.walls.append(new_wall)
             
+                default_walls_left = pygame.Rect((0,stair.top,self.wall_width,stair.height))
+                self.walls.append(default_walls_left)
+
+                default_walls_right = pygame.Rect((self._window_width,stair.top,self.wall_width,stair.height))
+                self.walls.append(default_walls_right)
+            
             spawned_monster = False
-            while not spawned_monster:
+            while not spawned_monster:  
                 spawn_x = random.randrange(0,self._window_width)
                 spawn_y = floor.top - self.canavar_height
 
