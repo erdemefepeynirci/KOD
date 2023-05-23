@@ -340,7 +340,7 @@ class Game:
 
     def are_there_stairs(self,loc_x,loc_y):
         for stair in self._stairs:
-            if pygame.Rect.collidepoint(stair,loc_x,loc_y+40):
+            if pygame.Rect.collidepoint(stair,loc_x,loc_y+35):
                 return True
         return False
     
