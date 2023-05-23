@@ -1,15 +1,14 @@
 import pygame
 
 class Bullet:
-
+    _damage= 1
     def __init__(self, loc_x, loc_y,direction,color=(255,255,255)):
-        self.loc_x = loc_x
-        self.loc_y = loc_y
-        self.direction = direction
-        self.color = color
-        self.damage= 1
-        self.speed= 4
-        self.flag = False
+        self._loc_x = loc_x
+        self._loc_y = loc_y
+        self._direction = direction
+        self._color = color
+        self._speed= 4
+        self._flag = False
 
     def is_hit_wall(self):
         pass
@@ -18,16 +17,16 @@ class Bullet:
         pass
 
     def draw(self,screen):
-        pygame.draw.line(screen,self.color, (self.loc_x,self.loc_y), (self.loc_x+5,self.loc_y),4)
+        pygame.draw.line(screen,self._color, (self._loc_x,self._loc_y), (self._loc_x+5,self._loc_y),4)
 
     def bullet_move(self):
-        if self.direction == "R":
-            self.loc_x += 5*self.speed
-        if self.direction == "L":
-            self.loc_x -= 5*self.speed
+        if self._direction == "R":
+            self._loc_x += 5*self._speed
+        if self._direction == "L":
+            self._loc_x -= 5*self._speed
 
-    # def create(self):
-    #     pass
+    def increase_damage():
+        Bullet._damage+=1
 
     def remove_bullet(self):
         del self
