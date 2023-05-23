@@ -3,10 +3,10 @@ import random
 
 class Monster(Interactable):
     
-    def __init__(self,loc_x,loc_y,mon_speed,mon_damage,mon_health):
-        self.mon_speed = 1.5
-        self.mon_health = mon_health
-        self.mon_damage = mon_damage
+    def __init__(self,loc_x,loc_y):
+        self.mon_speed = 2
+        self.mon_health = 3
+        self.mon_damage = 1
         self.r = random.randint(0,1)
         if self.r == 0:
             self.direction = "R"
@@ -48,3 +48,6 @@ class Monster(Interactable):
     def here_is_mon_loc(self):
         return (self.loc_x,self.loc_y)
 
+    def affect(self,player):
+        player.lose_life(1)
+        

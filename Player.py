@@ -1,15 +1,16 @@
 import pygame
 
 class Player:
-    def __init__(self):
+    def __init__(self,locx,locy):
         self.rect: pygame.Rect
-        self.image: pygame.Surface
-        self.loc_x: float
-        self.loc_y: float
 
-        self.life: int
-        self.speed: int
-        self.direction: str
+        self.image = pygame.transform.scale(pygame.image.load("player.png"),(30,40))
+        self.loc_x = locx
+        self.loc_y = locy
+        self.speed = 1
+        self.direction = "R"
+        self.life = 3
+        
 
     def go_right(self):
         self.loc_x +=5*self.speed
@@ -34,23 +35,13 @@ class Player:
     def get_buff(self):
         pass
 
-    def lose_life(self):
-        pass
+    def lose_life(self,num):
+        self.life-= num
 
-    def die(self):
-        pass
 
     def draw(self,screen: pygame.Surface):
         screen.blit(self.image,(self.loc_x,self.loc_y))
 
-
-    def create(self,locx,locy):
-        self.image = pygame.transform.scale(pygame.image.load("player.png"),(30,30))
-        self.loc_x = locx
-        self.loc_y = locy
-        self.speed = 1
-        self.direction = "R"
-        
 
 
     def here_is_loc(self):

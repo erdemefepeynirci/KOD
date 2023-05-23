@@ -2,13 +2,14 @@ import pygame
 
 class Bullet:
 
-    def __init__(self, loc_x, loc_y,direction):
+    def __init__(self, loc_x, loc_y,direction,color=(255,255,255)):
         self.loc_x = loc_x
         self.loc_y = loc_y
         self.direction = direction
-        self.color = (255,255,255)
+        self.color = color
         self.damage= 1
-        self.speed= 2
+        self.speed= 4
+        self.flag = False
 
     def is_hit_wall(self):
         pass

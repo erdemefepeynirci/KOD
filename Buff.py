@@ -6,6 +6,8 @@ class Buff(Interactable):
         self.remaining_time = 10
         super().__init__(loc_x,loc_y)
 
+    def affect(self,player):
+        del self
 
-    def create():
+    def create(self):
         pass
