@@ -22,7 +22,7 @@ class Game:
         self._window_height = 720
         self._window_width = 1080
 
-
+    
         self._clock = pygame.time.Clock()
         self._screen = pygame.display.set_mode((self._window_width,self._window_height))
         #self._rect: Rect
@@ -233,6 +233,9 @@ class Game:
                     bullet.remove_bullet()
                 if mon.mon_health == 0:
                     self.mon_die(mon)
+
+
+# boolean return ede func
 
         loc = self.player.here_is_loc()
         for key in self.keys:
