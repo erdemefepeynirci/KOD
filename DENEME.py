@@ -8,6 +8,7 @@ from MonsterH import MonsterH
 from MonsterS import MonsterS
 from Chest import Chest
 from Key import Key
+from Buff import Buff
 from BuffD import BuffD
 from BuffS import BuffS
 from BuffH import BuffH
@@ -41,10 +42,6 @@ class Game:
         self.floor_seperation = 105
 
 
-        #Chest Ayarları
-        self.chest_height = 60
-        self.chest_width = 90
-
 
         #Merdiven Ayarları
         self.stair_width = 30
@@ -68,6 +65,7 @@ class Game:
         self.interactable = []
         self.bullets = []
         self.buffs = []
+        self.effective_buff = []
         
 
 
@@ -91,23 +89,25 @@ class Game:
                     self.player.go_right()
 
             if keys[K_UP]:
-                if self.is_there_stairs(loc_x,loc_y-5):
+                if self.are_there_stairs(loc_x,loc_y-5):
                     self.player.go_up()
 
 
             if keys[K_DOWN]:
-                if self.is_there_stairs(loc_x,loc_y+5):
+                if self.are_there_stairs(loc_x,loc_y+5):
                     self.player.go_down()
 
             if keys[K_SPACE]:
                 self.create_bullet(loc_x,loc_y)
+                # if BuffD.buffd_bool:
+                #     self.create_bullet(loc_x,loc_y,(255,0,255))                    
 
             self._screen.fill((0,0,0))
             self.time_tick()
 
             self._screen.blit(self._life_image,(0,0))
             self._screen.blit(self._life_image,(35,0))
-            self._screen.blit(self._life_image,(70,0))
+            self._screen.blit(self._life_image,(70,0)) 
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -116,59 +116,39 @@ class Game:
             pygame.display.update()
 
     def start(self):
-        self.player = Player()
-        self.player.create(60,675)
+        self.player = Player(60,665)
 
-        self.monsterD1 = MonsterD(840,675,10,3,2)
-        self.monsterD1.create(840,675,"monsterd.png",self.canavar_height,self.canavar_width)
-        self.monsterD2 = MonsterD(570,555,10,3,2)
-        self.monsterD2.create(570,555,"monsterd.png",self.canavar_height,self.canavar_width)
-        self.monsterD3 = MonsterD(480,435,10,3,2)
-        self.monsterD3.create(480,435,"monsterd.png",self.canavar_height,self.canavar_width)
-        self.monsterD4 = MonsterD(360,315,10,3,2)
-        self.monsterD4.create(360,315,"monsterd.png",self.canavar_height,self.canavar_width)
-        self.monsterD5 = MonsterD(780,195,10,3,2)
-        self.monsterD5.create(780,195,"monsterd.png",self.canavar_height,self.canavar_width)
+        self.monsterD1 = MonsterD(840,660)
+        self.monsterD2 = MonsterD(570,540)
+        self.monsterD3 = MonsterD(480,420)
+        self.monsterD4 = MonsterD(360,300)
+        self.monsterD5 = MonsterD(780,180)
+        self.monsterH1 = MonsterH(810,540)
+        self.monsterH2 = MonsterH(510,420)
+        self.monsterH3 = MonsterH(600,60)
+        self.monsterS1 = MonsterS(660,660)
+        self.monsterS2 = MonsterS(540,420)
+        self.monsterS3 = MonsterS(570,300)
+        self.monsterS4 = MonsterS(180,180)
 
-        self.monsterH1 = MonsterH(810,555,10,4,2)
-        self.monsterH1.create(810,555,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterH2 = MonsterH(510,435,10,4,2)
-        self.monsterH2.create(510,435,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterH3 = MonsterH(600,75,10,4,2)
-        self.monsterH3.create(600,75,"heart.png",self.canavar_height,self.canavar_width)
         
-        self.monsterS1 = MonsterS(660,675,20,3,2)
-        self.monsterS1.create(660,675,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterS2 = MonsterS(540,435,20,3,2)
-        self.monsterS2.create(540,435,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterS3 = MonsterS(570,315,20,3,2)
-        self.monsterS3.create(570,315,"heart.png",self.canavar_height,self.canavar_width)
-        self.monsterS4 = MonsterS(180,195,20,3,2)
-        self.monsterS4.create(180,195,"heart.png",self.canavar_height,self.canavar_width)
+        self.chest = Chest(930,40)
+
         
-        self.chest = Chest(870,45)
-        self.chest.create(870,45,"key.png",self.chest_width,self.chest_height)
+        self.key1 = Key(810,75)
+   
+        self.key2 = Key(720,195)
         
-        self.key1 = Key(810,90)
-        self.key1.create(810,90,"key.png",self.key_width,self.key_height)
-        self.key2 = Key(720,210)
-        self.key2.create(720,210,"key.png",self.key_width,self.key_height)
-        self.key3 = Key(420,330)
-        self.key3.create(420,330,"key.png",self.key_width,self.key_height)
-        self.key4 = Key(990,330)
-        self.key4.create(990,330,"key.png",self.key_width,self.key_height)
-        self.key5 = Key(60,450)
-        self.key5.create(60,450,"key.png",self.key_width,self.key_height)
-        self.key6 = Key(600,450)
-        self.key6.create(600,450,"key.png",self.key_width,self.key_height)
-        self.key7 = Key(930,450)
-        self.key7.create(930,450,"key.png",self.key_width,self.key_height)
-        self.key8 = Key(510,570)
-        self.key8.create(510,570,"key.png",self.key_width,self.key_height)
-        self.key9 = Key(690,570)
-        self.key9.create(690,570,"key.png",self.key_width,self.key_height)
+        self.key3 = Key(420,315)
+      
+        self.key4 = Key(990,315)
+     
+        self.key5 = Key(60,435)
+        self.key6 = Key(600,435)
+        self.key7 = Key(930,435)
+        self.key8 = Key(510,555)
+        self.key9 = Key(690,555)
         self.key10 = Key(960,675)
-        self.key10.create(960,675,"key.png",self.key_width,self.key_height)
 
 
         self.canavarlar.append(self.monsterD1)
@@ -218,7 +198,7 @@ class Game:
             self._screen.blit(self.floor_image,floor_rect)
 
         for stair in self.stairs:
-            stair_rect = pygame.Rect(stair.left,stair.top,stair.width,stair.height)
+            stair_rect = pygame.Rect(stair.left+10,stair.top-5,stair.width+10,stair.height+10)
             #pygame.draw.rect(self._screen,(255,0,255),new_rect)
 
             self.stair_image = pygame.transform.scale(pygame.image.load("stair.png"),(self.stair_width,self.stair_height))
@@ -243,9 +223,12 @@ class Game:
             bullet.draw(screen=self._screen)
             bullet.bullet_move()
             b2 = self.is_there_a_wall(bullet.loc_x,bullet.loc_y)
+            if b2:
+                self.bullets.remove(bullet)
+                bullet.remove_bullet  
             for mon in self.canavarlar:
                 b1 = mon.is_get_hit(bullet.loc_x,bullet.loc_y)
-                if b1 or b2:
+                if b1:
                     self.bullets.remove(bullet)
                     bullet.remove_bullet()
                 if mon.mon_health == 0:
@@ -254,16 +237,35 @@ class Game:
         loc = self.player.here_is_loc()
         for key in self.keys:
             if key.is_interacted(loc[0],loc[1]):
-                key.affect(self._key_number)
+                self._key_number+=1
+                key.affect()
                 self.keys.remove(key)
+                if self.are_there_enough_keys():
+                    self.open_chest()
+
+        for buff in self.buffs:
+             if buff.is_interacted(loc[0],loc[1]):
+                buff.affect(self.player)   
+                self.buffs.remove(buff)
+
 
         for mon in self.canavarlar:
+            if mon.is_interacted(loc[0],loc[1]):
+                mon.affect(self.player)
+                self.respawn()
+
+        for mon in self.canavarlar:  
             loc = mon.here_is_mon_loc()
             b = self.is_there_a_wall(loc[0],loc[1])
             if b:
                 mon.change_direction()
             mon.mon_move()
 
+
+        if self.player.life <= 0:
+            self.die(self.player)
+
+        
 
         self._clock.tick(60)
 
@@ -302,7 +304,7 @@ class Game:
             
         default_walls_left = pygame.Rect((0,0,self.default_wall_width,self.default_wall_height))
         self.walls.append(default_walls_left)
-        default_walls_right = pygame.Rect((0,self._window_width-self.default_wall_width,self.default_wall_width,self.default_wall_height))
+        default_walls_right = pygame.Rect((self._window_width-self.default_wall_width,0,self.default_wall_width,self.default_wall_height))
         self.walls.append(default_walls_right)
         
         wall1 = pygame.Rect(630,480,self.wall_width,self.wall_height)
@@ -316,11 +318,22 @@ class Game:
         self.walls.append(wall4)
 
 
-    def game_over(self):
-        pass
+    def game_over(self,cond):
+        self._screen.fill((0,0,0))
+        pygame.font.init()
+        my_font = pygame.font.SysFont('Comic Sans MS', 50)
+        if cond == "lost":
+            text_surface = my_font.render('YOU LOST, TRY AGAIN', False, (255,255,255))
+            self._screen.blit(text_surface, (250,340))
+        if cond == "won":
+            text_surface = my_font.render('CONGRATULATIONS, YOU WON', False, (255,255,255))
+            self._screen.blit(text_surface, (250,340))
+
 
     def respawn(self):
-        pass
+        self.player.loc_x =60
+        self.player.loc_y= 655
+        
 
     def create_bullet(self, loc_x, loc_y):
         direction = self.player.here_is_direc()
@@ -328,7 +341,10 @@ class Game:
         
 
     def are_there_enough_keys(self):
-        pass
+        if self._key_number==10:
+            return True
+        else:
+            return False
 
     def check_respawn_time_is_over(self):
         pass
@@ -339,9 +355,9 @@ class Game:
                 return True
         return False
 
-    def is_there_stairs(self,loc_x,loc_y):
+    def are_there_stairs(self,loc_x,loc_y):
         for stair in self.stairs:
-            if pygame.Rect.collidepoint(stair,loc_x,loc_y+25):
+            if pygame.Rect.collidepoint(stair,loc_x,loc_y+40):
                 return True
         return False
     
@@ -360,5 +376,25 @@ class Game:
         self.canavarlar.remove(canavar)
         del canavar
 
+    
+    def die(self,player):
+        self.game_over("lost")
+
+
+    def open_chest(self):
+        self.game_over("won")
+
 my_game = Game()
 my_game.run()
+
+
+# to do
+# bulleta cooldown ekle
+# remaining effect time ekle
+# heath barı düzenle
+# merdiven çıkmayı düzelt
+# buff alındığında bullet rengi
+# monsterlar respawn olacak
+# mons yavaşşşş hareket ediyo
+# duvara girme
+# açık chest resmi
