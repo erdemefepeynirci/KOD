@@ -50,7 +50,7 @@ class Player:
 
     def turn_to_initial_pos(self):
         self._loc_x =60
-        self._loc_y= 655
+        self._loc_y= 665
 
     def here_is_loc(self):
         return (self._loc_x,self._loc_y)
@@ -63,3 +63,6 @@ class Player:
             return True
         else:
             return False
+        
+    def check_life(self):
+        return self._life

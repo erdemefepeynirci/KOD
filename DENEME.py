@@ -90,16 +90,14 @@ class Game:
                     self._player.go_down()
 
             if keys[K_SPACE]:
-                self.create_bullet(loc_x,loc_y)
-                # if BuffD.buffd_bool:
-                #     self.create_bullet(loc_x,loc_y,(255,0,255))                    
+                self.create_bullet(loc_x,loc_y)                   
 
             self._screen.fill((0,0,0))
             self.time_tick()
 
-            self._screen.blit(self._life_image,(0,0))
-            self._screen.blit(self._life_image,(35,0))
-            self._screen.blit(self._life_image,(70,0)) 
+            k=self._player.check_life()
+            for i in range(k): 
+                self._screen.blit(self._life_image,(35*i,0))
 
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -385,7 +383,7 @@ my_game.run()
 # bulleta cooldown ekle
 # remaining effect time ekle
 # heath barı düzenle
-# merdiven çıkmayı düzelt
+
 # buff alındığında bullet rengi
 # monsterlar respawn olacak
 # mons yavaşşşş hareket ediyo
